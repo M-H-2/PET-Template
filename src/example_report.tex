@@ -1,0 +1,153 @@
+\documentclass[a4paper, 12pt]{report}
+\usepackage{pentest-report}
+
+\title{Penetrationstestbericht - \ac{DVWA}}
+\author{Manuel Heckmann}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\listoffigures
+
+\chapter*{Abkürzungsverzeichnis}
+\begin{acronym}
+    \acro{DVWA}{Damn Vulnerable Web Application}
+    \acro{LPE}{Local Privilege Escalation}
+    \acro{PET}{Penetration Testing}
+    \acro{VM}{Virtuelle Maschine}
+\end{acronym}
+
+\chapter{Einführung}
+Im Zuge der Vorlesung \ac{PET} an der Hochschule Mannheim im Sommersemester 2021
+wurde den Studierenden die Aufgabe gestellt, einen Penetrationstestbericht zu verfassen.
+Dies dient der Vorbereitung auf die Abschlussprüfung dieses Faches,
+welche das Aufspüren und anschließende Dokumentieren von Schwachstellen einer
+dem Studenten zugewiesenen virtuellen Maschine (\acs{VM}) umfasst.
+Die Dokumentation wird in Form eines Penetrationstestberichts abgegeben werden.
+Dieser Bericht soll der Vorbereitung auf diese Prüfung dienen.
+Bei der konkret untersuchten Anwendung dieses Berichts handelt es sich um die \ac{DVWA}.
+
+\ldots
+
+\chapter{Technische Umgebung und Randbedingungen}
+Bei dem Zielsystem handelt es sich um eine \ac{VM} auf der \emph{Metasploitable 2} installiert wurde.
+\emph{Metasploitable 2} ist eine sogenannte \emph{VulnBox}; ein vorgefertigtes System, welches der Übung
+von sicherheitsrelevanten Fertigkeiten, im Speziellen Penetrationstests, dient.
+Wie bereits in der Einführung erwähnt, handelt es sich bei der untersuchten Anwendung um die \ac{DVWA},
+welche ebenfalls diesem Trainingstyp zuzuschreiben ist auf dem zuvorgenannten \ac{VM}-System ausgeführt wird.
+Wie der Name bereits verrät, handelt es sich bei der \ac{DVWA} um eine Web-Anwendung.
+Die Angriffe werden dementsprechend über das Netzwerk ausgeführt.
+Hierbei hat das Zielsystem eine von der Virtualisierungsumgebung VirtualBox zugewiesene dynamische IP-Adresse
+im Subnetz \textbf{192.168.3.0/24}.
+Im Zuge dieser Untersuchung handelt es sich bei der zugewiesenen Adresse um \textbf{192.168.3.4}.
+Die untersuchte Webanwendung findet sich dementsprechend unter \url{http://192.168.3.4/dvwa/}.
+
+\ldots
+
+\chapter{Kategorisierung der Schwachstellen}
+
+Im Zuge dieses Berichts werden Schwachstellen auf zweierlei Art dokumentiert:
+\begin{enumerate}
+    \item Tabellarisch
+    \item In Prosaform
+\end{enumerate}
+
+Ersteres bildet eine Einführung und einen schnellen Überblick zu der jeweiligen Schwachstelle.
+Eine Erklärung der Tabellenspalten findet sich auf der nächsten Seite.
+
+Weiterhin folgen auf die Übersichtstabelle weitere Erläuterungen in Prosaform, sowie Bilder, sofern vorhanden.
+
+\begin{center}
+    \begin{tabularx}{\textwidth}{ | X | X | }
+        \hline
+        \rowcolor{lightgray} \textbf{Name} & \textbf{Erklärung} \\
+        \hline
+        Kategorie & Angabe der Mitre-CWE-Kategorisierung \footnote{nach \url{https://cwe.mitre.org}} \\
+        \hline
+        Einstufung & Schweregrad der Schwachstelle.
+        
+        \emph{Niedrig} bedeutet, dass die Schwachstelle für sich genommen kein Sicherheitsproblem darstellt,
+        und nur in Ausnahmefällen die Systemsicherheit gefährden kann.
+        
+        \emph{Mittel} bedeutet, dass die Systemsicherheit in Kombinationen mit weiteren Schwachstellen schnell
+        gefährdet sein kann; es kann sich also schnell zu einem schwerwiegenden Sicherheitsproblem entwickeln
+        
+        \emph{Schwer} bedeutet, dass es sich um einen schwerwiegenden Mangel handelt, der umgehend behoben werden sollte. \\
+        \hline
+        Auswirkung & Konkrete Gefährdung die sich aus der Schwachstelle ergibt \\
+        \hline
+        Empfohlene Maßnahme & Gibt eine Möglichkeit an, die Schwachstelle zu beheben \\
+        \hline
+        Notwendiges Angreifer-Niveau & Wie erfahren ein Angreifer sein muss, um die Schwachstelle ausnutzen zu können.
+        
+        \emph{Anfänger} bedeutet, dass ein automatisiertes Tool zu benutzen und/oder rudimentäre Kenntnisse ausreichend sind.
+
+        \emph{Professional} bedeutet, dass ein Angreifer fundiertes Wissen und die entsprechenden Werkzeuge besitzen muss.
+        
+        \emph{Experte} bedeutet, dass ein Angreifer in der Lage sein muss, selbst Exploits entwickeln zu können und durch Quellcode-Analyse neue Schwachstellen zu finden \\
+        \hline
+    \end{tabularx}
+\end{center}
+
+\chapter{Verlauf und Ergebnis}
+Im Wesentlichen wurden alle Exploits in der aufgeführten Reihenfolge durchgeführt.
+Werkzeuge wurden nur verwendet, wo dies auch angegeben wurde.
+An dieser Stelle ist besonders zu erwähnen, dass man bemerkenswert einfach über die
+in Kapitel 5.6 beschriebene Schwachstelle Zugriff auf eine Shell des Zielsystems erhalten kann.
+Um die nötigen Dateien für weitere Angriffe hochzuladen, stehen die erlangte Shell
+und die in Kapitel 5.8 beschriebene Schwachstelle zur Verfügung.
+
+\ldots
+
+Sobald man Zugriff auf das System sowie die nötigen Exploits hochgeladen hat, muss man diese nur noch vorbereiten und ausführen.
+Im Falle des genutzten \ac{LPE}-Exploits reicht ein Kompilieren mit \emph{gcc} sowie das anschließende Ausführen.
+
+Das Ergebnis der Untersuchung ist, dass das System viele schwere Schwachstellen aufweist und schnellstmöglich abgesichert werden sollte.
+Genauere Informationen zu den vorliegenden Problemen finden Sie in den Detailberichten im folgenden Kapitel.
+
+
+\chapter{Identifizierte Schwachstellen}
+\section{Benutzerdaten auf Anmeldeseite einsehbar}
+\vulntable{\href{https://cwe.mitre.org/data/definitions/200.html}{CWE-200: Exposure of Sensitive Information to an Unauthorized Actor}}{Schwer}{Administrativer Zugriff auf das gesamte System}{Anmeldedaten nicht auf der Startseite einblenden, Anmeldedaten ändern}{Anfänger}
+
+\begin{figure}
+    \includegraphics[width=\textwidth, keepaspectratio]{admin_credentials.png}
+    \caption{Die Administrator-Zugriffsdaten werden auf der Startseite jedem Besucher angezeigt}
+\end{figure}
+
+Betroffene URL: \url{http://192.168.3.4/dvwa/login.php} \\
+Die Anmeldedaten für administrativen Zugriff sind auf der Startseite für jeden unverschlüsselt einsehbar.
+Diese Zugangsdaten für den administrativen Zugriff sollten umgehend von der Startseite entfernt und geändert werden, da sonst jeder Besucher der Seite trivial
+Zugriff auf die Administration der Webanwendung erlangt.
+
+\section{Reflected Cross-Site-Scripting}
+\label{rxss}
+\vulntable{\href{https://cwe.mitre.org/data/definitions/79.html}{CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')}}{Mittel}{Ausführung von clientseitigem Code}{Eingaben säubern, z.B. durch Filtern von HTML-Sonderzeichen}{Anfänger}
+
+Betroffene URL: \url{http://192.168.3.4/dvwa/vulnerabilities/xss_r/} \\
+
+Der URL-Parameter \emph{name} ist angreifbar.
+Die Eingabe wird direkt in das HTML der Seite eingebettet.
+Somit kann ein Angreifer beliebigen Code clientseitig ausführen.
+Ein mögliches Angriffszenario wäre das Stehlen des Session-Cookies.
+Hiermit könnte ein Angreifer die Identität eines anderen Nutzers übernehmen.
+
+Der folgende HTML-Quelltext genügt für das eben genannte Beispiel:
+\lstinputlisting[language=html]{../res/src/xss.html}
+
+\begin{figure}
+    \includegraphics[width=\textwidth, keepaspectratio]{r_xss.png}
+    \caption{Das Ergebnis der Eingabe des HTML-Quelltextes in das Eingabefeld}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth, keepaspectratio]{xss_cookie.png}
+    \caption{Das Ergebnis des Quelltextes aus Sicht eines HTTP-Servers des Angreifers. Man beachte die Cookies des Nutzers nach dem \emph{?}}
+\end{figure}
+
+Man kann nun den \emph{PHPSESSID}-Cookie benutzen, um die Sitzung des angegriffenen Benutzers zu übernehmen.
+
+\ldots
+
+\end{document}
